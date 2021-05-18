@@ -1,0 +1,28 @@
+trigger:
+  branches:
+    include:
+    - master
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: 15.x
+        checkLatest: true
+    - task: Bash@3
+      inputs:
+        targetType: inline
+        script: | 
+          # Write your commands here
+          echo 'Starting it.....'
+          wget https://accelq.s3.amazonaws.com/releases/plugins/latest/aq-vsts-azure-plugin-latest.tar.gz 
+          tar xvzf aq-vsts-azure-plugin-latest.tar.gz
+          cd aq-vsts-azure-plugin-latest
+          ls -al
+          npm install
+          node app.js  --url "https://poc.accelq.io" --tenant "demo" --project "Visu2" --user "kammakolu@yahoo.com" --password "QXVnQDIwMjA=" --jobid "332372" --agent "Vishu_POC" --runparams "a"
+
